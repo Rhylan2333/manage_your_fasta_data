@@ -1,0 +1,55 @@
+<html>
+
+<head>
+</head>
+
+<body>
+    <div class="seq-detail-page" style="width:1000px;margin:0 auto;padding:20px;">
+        <p class="description" style="margin:10px 0;font-size:20px;color:#777;">该序列的详细信息如下:</p>
+        <table style="width:100%;border-collapse:collapse;">
+            <tr style="border-bottom:1px solid #ddd;">
+                <th style="padding:10px;font-weight:bold;">seq_ID</th>
+                <td style="padding:10px;">LOC110374762</td>
+            </tr>
+            <tr style="border-bottom:1px solid #ddd;">
+                <th style="padding:10px;font-weight:bold;">renamed_ID</th>
+                <td style="padding:10px;">Harm_P450-3</td>
+            </tr>
+            <tr style="border-bottom:1px solid #ddd;">
+                <th style="padding:10px;font-weight:bold;">seq_description</th>
+                <td style="padding:10px;">cytochrome P450 CYP12A2</td>
+            </tr>
+            <tr style="border-bottom:1px solid #ddd;">
+                <th style="padding:10px;font-weight:bold;">seq_Seq</th>
+                <td style="padding:10px;">
+                    <pre>AATTAATTTTATCATGTGCAGTGTG...AAATGAATAAATTTTGTTACTGTTA</pre>
+                </td>
+            </tr>
+            <tr style="border-bottom:1px solid #ddd;">
+                <th style="padding:10px;font-weight:bold;">seq_Type</th>
+                <td style="padding:10px;">nucleic_acid</td>
+            </tr>
+            <tr style="border-bottom:1px solid #ddd;">
+                <th style="padding:10px;font-weight:bold;">subtab_ID</th>
+                <td style="padding:10px;">Harm_P450</td>
+            </tr>
+        </table>
+        <!-- <hr style="border:none;border-top:1px solid #333;"/> -->
+        <button class="return-link" onclick="history.back()" style="display:block;margin-top:20px;font-size:18px;
+            color:#3366ff;border:1px solid #3366ff;border-radius:3px;
+            background:#fff;padding:5px 10px;">返回上一级
+        </button>
+        <button class="edit-link" onclick="location.href='/managebioseq/logged/edit_seq'"
+            style="display:block;margin-top:20px;font-size:18px;
+            color:#3366ff;border:1px solid #3366ff;border-radius:3px;
+            background:#fff;padding:5px 10px;">修改此序列
+        </button>
+        <button class="edit-link" onclick="location.href='/managebioseq/logged/delete_seq'"
+            style="display:block;margin-top:20px;font-size:18px;
+            color:#3366ff;border:1px solid #3366ff;border-radius:3px;
+            background:#fff;padding:5px 10px;">删除此序列
+        </button>
+    </div>
+</body>
+
+</html>

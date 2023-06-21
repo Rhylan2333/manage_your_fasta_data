@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>User Info</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th,
+        td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>User Info Table in This HBase Database</h1>
+    <hr>
+    <table>
+        <thead>
+            <tr>
+                <th>Row Key</th>
+                <th>info:pwd</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in rows %}
+            <tr>
+                <td><strong>{{ row.row_key.decode() }}</strong></td>
+                {% for value in row.data.values(): %}
+                <td>{{ value }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <button class="edit-link" onclick="location.href='/managebioseq/login/'" style="display:block;margin-top:20px;font-size:18px;
+    color:#3366ff;border:1px solid #3366ff;border-radius:3px;
+    background:#fff;padding:5px 10px;">登录以访问主页
+    </button>
+
+</body>
+
+</html>

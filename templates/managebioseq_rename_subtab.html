@@ -1,0 +1,64 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>重命名FASTA序列表</title>
+        <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.5/build/pure-min.css">
+        <style>
+            body {
+                background: #f2f2f2;
+                font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+                font-size: 14px;
+                line-height: 1.42857143;
+                color: #333;
+            }
+            .container {
+                width: 600px;
+                background: #fff;
+                padding: 20px;
+                border-radius: 5px;
+                margin: 0 auto;
+            }
+            /* h1 {
+                margin: 0 0 20px;
+                text-align: center;
+            } */
+            .success, .error {
+                background: #dff0d8;
+                border: 1px solid #d6e9c6;
+                padding: 15px;
+                margin-bottom: 20px;
+                border-radius: 4px;
+            }
+            .error {
+                background: #f2dede;
+                border: 1px solid #ebccd1;
+            }
+            .file-upload {
+                background: #fff;
+                padding: 20px;
+                border-radius: 5px;
+                margin-bottom: 20px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>重命名FASTA序列表</h1>
+        <hr/>
+        <form method="post" action="/managebioseq/logged/rename_subtab_result/{{ subtab_name }}/">
+            <label>
+                原FASTA序列表（HBase子表）的名称：
+                <input type="text" name="subtab_name" value="{{ subtab_name }}" placeholder="{{ subtab_name }}" required>
+            </label>
+            <br>
+            <label>
+                新FASTA序列表（HBase子表）的名称：
+                <input type="text" name="new_subtab_id" placeholder="新的子表名" required>
+            </label>
+            <br>
+            <!-- {% if msg %}
+                <p style="color: red;">{{ msg }}</p>
+            {% endif %} -->
+            <button type="submit">提交</button>
+        </form>
+    </body>
+</html>

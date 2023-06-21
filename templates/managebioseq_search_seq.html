@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>FASTA序列查询</title>
+    <style>
+        body {
+            background: #f2f2f2;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 14px;
+            line-height: 1.42857143;
+            color: #333;
+        }
+
+        .container {
+            width: 600px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            margin: 0 0 20px;
+            text-align: center;
+        }
+
+        .success,
+        .error {
+            background: #dff0d8;
+            border: 1px solid #d6e9c6;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+
+        .error {
+            background: #f2dede;
+            border: 1px solid #ebccd1;
+        }
+
+        .search-area {
+            margin-bottom: 20px;
+        }
+
+        .search-area input[type="text"] {
+            width: 100%;
+            border-radius: 4px;
+            border: 1px solid #d6d6d6;
+            padding: 10px 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>FASTA序列查询</h1>
+        <hr />
+        <p><B>{{ current_client }}</B>，请操作。</p>
+        <form method="post" action="/managebioseq/logged/search_seq_result/">
+            <div class="search-area">
+                <select name="search_col" required>
+                    <option value="Seq_Show:seq_ID">序列ID</option>
+                    <option value="Seq_Show:seq_Seq">序列</option>
+                    <option value="Seq_Show:renamed_ID">别名ID</option>
+                    <option value="Seq_Info:seq_Description">序列描述</option>
+                    <option value="Seq_Info:subtab_ID">子表ID</option>
+                </select>
+                <br />
+                <input type="text" name="keyword" placeholder="请输入查询关键词" style="width:75%;" required>
+            </div>
+            <button type="submit">查询</button>
+        </form>
+        <button class="return-link" onclick="history.back()" style="display:block;margin-top:20px;font-size:18px;
+            color:#3366ff;border:1px solid #3366ff;border-radius:3px;
+            background:#fff;padding:5px 10px;">返回上一级
+        </button>
+    </div>
+</body>
+
+</html>

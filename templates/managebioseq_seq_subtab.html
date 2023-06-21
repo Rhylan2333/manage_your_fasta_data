@@ -1,0 +1,41 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>FASTA序列表查询</title>
+    <style>
+        .seq-link {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .seq-link a {
+            display: block;
+        }
+
+        .seq-link:hover {
+            background: #f2f2f2;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>查询FASTA序列表</h1>
+    <hr/>
+    <p>您已有的FASTA序列表如下：</p>
+    <div class="seq-link">
+        <a href='/managebioseq/logged/managebioseq_seq_detail?renamed_id=Harm_P450'><strong>Harm_P450</strong></a>
+    </div>
+    <div class="seq-link">
+        <a href='/managebioseq/logged/managebioseq_seq_detail?renamed_id=Sfru_P450'><strong>Sfru_P450</strong></a>
+    </div>
+    <div class="seq-link">
+        <a href='/managebioseq/logged/managebioseq_seq_detail?renamed_id=Sfru_GluCl'><strong>Sfru_GluCl</strong></a>
+    </div>
+    <hr />
+    点击链接以查看该表的详细信息。
+</body>
+
+</html>

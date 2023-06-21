@@ -1,0 +1,4 @@
+disable 'client0'
+drop 'client0'
+create 'client0', 'Seq_Show', 'Seq_Info'
+exit

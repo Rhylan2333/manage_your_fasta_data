@@ -1,0 +1,54 @@
+<html>
+
+<head>
+    <style>
+        .seq-link {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .seq-link a {
+            display: block;
+        }
+
+        .seq-link:hover {
+            background: #f2f2f2;
+        }
+    </style>
+</head>
+
+<body>
+    <p>您使用<code> {{ keyword }} </code>作为关键词在<code> {{ search_col }} </code>列中<B>模糊查询</B>到了如下 <B>{{ row_count }}</B> 条结果：</p>
+    <p>
+        {% if msg %}
+        {{ msg | safe }}
+        {% endif %}
+        点击链接以查看该序列的详细信息。
+    </p>
+    <button class="return-link" onclick="history.back()" style="display:block;margin-top:20px;font-size:18px;
+    color:#3366ff;border:1px solid #3366ff;border-radius:3px;
+    background:#fff;padding:5px 10px;">返回上一级
+    </button>
+
+    <hr />
+    {% for row in rows %}
+    <div class="seq-link">
+        <strong>seq_ID: {{ row[-1]['Seq_Show:seq_ID'.encode()].decode() }}</strong>
+        <p>renamed_ID: {{ row[-1]['Seq_Show:renamed_ID'.encode()].decode() }}</p>
+        <p>Description: {{ row[-1]['Seq_Info:seq_Description'.encode()].decode() }}</p>
+        <p>seq_Seq: {{ row[-1]['Seq_Show:seq_Seq'.encode()].decode()[:25] }}...
+            ...{{ row[-1]['Seq_Show:seq_Seq'.encode()].decode()[-25:] }}
+        </p>
+        <p>subtab_ID: {{ row[-1]['Seq_Info:subtab_ID'.encode()].decode() }}</p>
+        <p>row_key: <a href="http://localhost:8000/managebioseq/logged/search_seq_result/{{ row[0].decode() }}/">
+                {{ row[0].decode() }}
+            </a>
+        </p>
+    </div>
+    {% endfor %}
+    <hr />
+</body>
+
+</html>

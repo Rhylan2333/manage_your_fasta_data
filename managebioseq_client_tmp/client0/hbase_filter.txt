@@ -1,0 +1,2 @@
+scan 'client0', {FILTER=>"SingleColumnValueFilter('Seq_Info', 'subtab_ID' = , 'binary:tab_1')"}
+exit

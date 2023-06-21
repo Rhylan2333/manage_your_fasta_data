@@ -8,6 +8,7 @@ $ jps  # 应当有如下输出。在HBase单机模式下，RegionServer进程实
 22542 Jps
 """
 
+# Importing necessary packages
 import hashlib
 import itertools
 from datetime import datetime
@@ -20,9 +21,10 @@ from fastapi import FastAPI, File, Form, Request, UploadFile
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
+# Create an instance of the FastAPI
 app = FastAPI()
 
-# 挂载静态文件、模版文件目录
+# Mount the static and template directories
 app.mount("/static", StaticFiles(directory="./static/"), name="static")
 templates = Jinja2Templates(directory="./templates/")
 
@@ -30,16 +32,19 @@ templates = Jinja2Templates(directory="./templates/")
 # async def read_root():
 #     return {"Hello World": "Welcome to Caicai's Website."}
 
+# Endpoint for the root URL
 @app.get("/")
 async def read_item(request: Request):
+    # Create a connection to the HBase database
     connection = happybase.Connection('localhost', port=9090)
     table = connection.table('user_info')
 
     rows = []
 
+    # Scan the table and appending the rows to a list
     for key, data in table.scan():
         rows.append({'row_key': key, 'data': data})
-
+    # Return the template response with the rows
     return templates.TemplateResponse(
         "item_to_test_happybase.html",
         context={
@@ -50,51 +55,57 @@ async def read_item(request: Request):
 
 
 # 进行登录验证保护
+# Global variable for current client
 current_client = ''  # 一个全局变量，用于“一个用户一章表”
 
-# 添加 UserInfo 数据模型类，用于描述用户信息:
+# 添加 UserInfo 数据模型类，用于描述用户信息：
+# Class for UserInfo data model
 class UserInfo():
     def __init__(self, username, password):
         self.username = username
         self.password = password
-
+    # Method to generate hash using sha256
     def get_hash(self, in_str):
         sha256 = hashlib.sha256()
         sha256.update(in_str.encode('utf-8'))
         return sha256.hexdigest()
 
-
+# Endpoint for the login page
 @app.get("/managebioseq/login/")
 async def managebioseq_login(request: Request):
     return templates.TemplateResponse("managebioseq_login.html", context={'request': request})
 
+# Endpoint for the logged in page
 @app.post("/managebioseq/logged/")
 async def managebioseq_logged(request: Request, username: str = Form(...), password: str = Form(...)):
     # Form(...) 使得 username 和 password 将自动接收表单数据，而不用`username = request.form["username"]`，`password = request.form["password"]`。
     # 但对于复杂的表单，使用`var1 = request.form["var1"]`会更合适。
     # 实例化 User_Info，查询用户信息
+    # Create an instance of UserInfo and query the user information
     user_info = UserInfo(username, hashlib.sha256(password.encode('utf-8')).hexdigest())
-    # 连接hbase数据库
+    # Connect to the HBase database
     connection = happybase.Connection('localhost')
     table_uname_pwd = connection.table('user_info')
-    # 查询用户名和密码
+    # Query the username and password
     row_check = table_uname_pwd.row(username)
+    # If the username exists
     if row_check:
-        # 如果密码匹配，登录成功
+        # If the password matches, login is successful
         if row_check[b'info:pwd'].decode() == user_info.password:
             global current_client
             current_client = username
             return templates.TemplateResponse("managebioseq_logged.html", context={'request': request, 'result': '用户名和密码匹配，登录成功！', 'current_user' : current_client})
-        # 密码错误
+        # If the password is incorrect
         else:
             error_msg = "密码错误！请重新输入！！"
             return templates.TemplateResponse("managebioseq_login.html", context={'request': request, 'result': error_msg})
-    # 用户名不存在
+    # If the username does not exist
     else:
         error_msg = "用户名不存在！请重新输入！！"
         return templates.TemplateResponse("managebioseq_login.html", context={'request': request, 'result': error_msg})
 
 
+# Class for the FastaSequence data model
 # 添加 FastaSequence、FastaHBaseSubtable数据模型类，用于描述 FASTA 文件、序列所在子表的信息:
 class FastaSequence():
     def __init__(self, seq_id, seq_seq, renamed_id=None, seq_description=None, seq_type=None, subtab_id=None):
@@ -105,7 +116,7 @@ class FastaSequence():
         self.seq_type = seq_type
         self.subtab_id = subtab_id
 
-
+# Class for the FastaHBaseSubtable data model
 class FastaHBaseSubtable():
     def __init__(self, subtab_id):
         self.subtab_id = subtab_id
@@ -115,47 +126,45 @@ class FastaHBaseSubtable():
 # 定义上传 FASTA 文件的接口
 @app.get("/managebioseq/logged/upload_fasta/")
 async def upload_fasta_file(request: Request):
-    # 全局变量，存储当前客户端
+    # Global variable to store the current client
     global current_client
     return templates.TemplateResponse("managebioseq_upload_fasta_file.html", context={'request': request, 'current_client': current_client})
 
 
-# 定义上传 FASTA 文件解析结果的接口
+# 定义上传 FASTA 文件后展示解析结果的接口
 @app.post("/managebioseq/logged/upload_fasta_result/")
 async def upload_fasta_file_result(request: Request, subtab_id: str = Form(...), file: UploadFile = File(...)):
-    # 解析上传的 FASTA 文件，获取序列记录
+    # Parse the uploaded FASTA file to get the sequence records
     seq_records = SeqIO.parse(f"{file.filename}", "fasta")
-
-    # 检查解析结果，如果 SeqRecord 为空则格式错误，返回错误信息
-    if seq_records:  # 这里需要改进，完善校验功能。
+    # Check the parsing result, if seq_records is empty, then the format is incorrect, return an error message
+    if seq_records:  # Improvement needed here, enhance validation functionality.
         global current_client
-        # 连接 HBase 数据库
         connection = happybase.Connection('localhost')
         table = connection.table(current_client)
-        # 将每个序列记录插入 HBase 表中
+        # Write each sequence record into the HBase table
         for seq_record in seq_records:
-            row_id = str(datetime.now()).replace(' ', '_')  # 生成行键
+            row_id = str(datetime.now()).replace(' ', '_')  # Generate the row key
             seq_id = seq_record.id  # 序列 ID
             seq_description = seq_record.description  # 序列描述
-            seq_seq = str(seq_record.seq)  # 序列
+            seq_seq = str(seq_record.seq)  # 序列内容
             table.put(row_id, {'Seq_Show:seq_ID': seq_id,
                                 'Seq_Show:seq_Seq': seq_seq,
                                 'Seq_Show:renamed_ID': "",  # 序列别名
                                 'Seq_Info:seq_Description': seq_description,
                                 'Seq_Info:seq_Type': "",  # 序列类型
-                                'Seq_Info:subtab_ID': subtab_id,  # 子表ID
+                                'Seq_Info:subtab_ID': subtab_id,  # 所属子表 ID
                                 })
-        # 返回成功信息
+        # Return success message
         return templates.TemplateResponse(
             "managebioseq_upload_fasta_result.html",
             context = {
                 'request': request,
                 'success_msg': f"上传成功！{current_client} 您可以关闭此页面。",
-                'subtab_id': subtab_id,  # 传递 subtab_id 的值
+                'subtab_id': subtab_id,  # Pass the value of subtab_id
                 }
             )
     else:
-        # 返回失败信息
+        # Return failure message
         return templates.TemplateResponse(
         "managebioseq_upload_fasta_result.html",
         context = {

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>上传FASTA文件</title>
+    <style>
+        body {
+            background: #f2f2f2;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 14px;
+            line-height: 1.42857143;
+            color: #333;
+        }
+
+        .container {
+            width: 600px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            margin: 0 0 20px;
+            text-align: center;
+        }
+
+        .success,
+        .error {
+            background: #dff0d8;
+            border: 1px solid #d6e9c6;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+
+        .error {
+            background: #f2dede;
+            border: 1px solid #ebccd1;
+        }
+
+        .file-upload {
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>上传FASTA文件</h1>
+        <p><strong>{{ current_client }}</strong>，请您选择 FASTA 格式的文件，否则您的数据不会被写入。</p>
+        <p>👆如果没有出现您的用户名，请您在主页面刷新后再进入此页。否则您无法写入数据。</p>
+        <hr />
+        <form method="post" enctype="multipart/form-data" action="/managebioseq/logged/upload_fasta_result/">
+            <div class="file-upload">
+                <label>选择文件：</label>
+                <input type="file" name="file" required>
+            </div>
+            <div>
+                <label>子表ID：</label>
+                <input type="text" name="subtab_id" placeholder="存入子表的名称" required>
+            </div>
+            <br />
+            <button type="submit">提交以写入数据库</button>
+        </form>
+        <button class="return-link" onclick="history.back()" style="display:block;margin-top:20px;font-size:18px;
+            color:#3366ff;border:1px solid #3366ff;border-radius:3px;
+            background:#fff;padding:5px 10px;">返回上一级
+        </button>
+    </div>
+</body>
+
+</html>

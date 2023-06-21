@@ -1,0 +1,21 @@
+<html>
+
+<body>
+    <hr />
+    <h1>上传多个文件</h1>
+    <form action="/managebioseq/logged/files/" enctype="multipart/form-data" method="post">
+        <input name="files_list" type="file" multiple required><br><br>
+        <input name="files_name" type="file" multiple required>（与👆上一个按钮传入的文件一致）<br><br>
+        <input type="submit" value="点击这里显示文件名字与大小">
+    </form>
+    <hr />
+    <h1>上传单个文件</h1>
+    <form action="/managebioseq/logged/create_file/" enctype="multipart/form-data" method="post">
+        <input name="file" type="file" multiple required><br><br>
+        <input name="file_b" type="file" multiple required>（与👆上一个按钮传入的文件一致）<br><br>
+        <input name="notes" type="text" multiple  placeholder="你对本文件的备注信息" required>必填，测试 Form 表单功能<br><br>
+        <input type="submit" value="点击这里显示文件属性">
+    </form>
+</body>
+
+</html>

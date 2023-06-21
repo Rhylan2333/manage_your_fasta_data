@@ -1,0 +1,40 @@
+<html>
+
+<head>
+    <style>
+        .seq-link {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .seq-link a {
+            display: block;
+        }
+
+        .seq-link:hover {
+            background: #f2f2f2;
+        }
+    </style>
+</head>
+
+<body>
+    <p>您在 <code>{{ current_client }}</code> HBase 表中拥有如下子表（FASTA 序列表）：</p>
+    <p>点击链接以查看该序列表的详细信息。</p>
+    <button class="return-link" onclick="history.back()" style="display:block;margin-top:20px;font-size:18px;
+    color:#3366ff;border:1px solid #3366ff;border-radius:3px;
+    background:#fff;padding:5px 10px;">返回上一级
+    </button>
+
+    <hr />
+    {% for subtab_name, row_count in dic_subtabs.items() %}
+    <div class="seq-link">
+        <strong>子表名称: <a href="http://localhost:8000/managebioseq/logged/{{ subtab_name }}/">{{ subtab_name }}</a></strong>
+        <p>所包含的FASTA序列条数: {{ row_count }}</p>
+    </div>
+    {% endfor %}
+    <hr />
+</body>
+
+</html>

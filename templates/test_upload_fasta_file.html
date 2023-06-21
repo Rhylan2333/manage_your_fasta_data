@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>文件上传</title>
+</head>
+
+<body>
+    <h1>FASTA 文件上传</h1>
+    <form method="post" enctype="multipart/form-data" action="/test_upload_fasta_result/">
+        <div>
+            <label>选择文件：</label>
+            <input type="file" name="file">
+        </div>
+        <div>
+            <label>子表ID：</label>
+            <input type="text" name="subtab_id">
+        </div>
+        <button type="submit">提交</button>
+    </form>
+</body>
+
+</html>
