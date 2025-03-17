@@ -9,6 +9,6 @@ uvicorn main:app --reload
 nohup python -u "main.py" >> main.log 2>&1 &!
 ```
 都可以启动应用。
-`附件2.源程序main.py`是草稿，不能使用。
+`附件2.源程序main.py`是草稿，不能正常工作。
 
 演示视频上传到了B站，[点击此链接查看](https://www.bilibili.com/video/BV1bo4y1P7W4/)
