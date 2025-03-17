@@ -11,6 +11,4 @@ nohup python -u "main.py" >> main.log 2>&1 &!
 都可以启动应用。
 `附件2.源程序main.py`是草稿，不能正常工作。
 
-演示视频上传到了B站，[点击此链接查看](https://www.bilibili.com/video/BV1bo4y1P7W4/)
-
-<iframe src="//player.bilibili.com/player.html?isOutside=true&aid=402531179&bvid=BV1bo4y1P7W4&cid=1170444113&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
+演示视频上传到了B站，[点击此链接查看](https://www.bilibili.com/video/BV1bo4y1P7W4/)。
